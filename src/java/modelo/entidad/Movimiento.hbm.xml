@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-oct-2018 13:52:50 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.entidad.Movimiento" table="movimiento" catalog="control_equipos" optimistic-lock="version">
+        <id name="idmovimiento" type="java.lang.Integer">
+            <column name="idmovimiento" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empleado" class="modelo.entidad.Empleado" fetch="select">
+            <column name="idempleado" />
+        </many-to-one>
+        <many-to-one name="equipo" class="modelo.entidad.Equipo" fetch="select">
+            <column name="idequipo" />
+        </many-to-one>
+        <many-to-one name="usuario" class="modelo.entidad.Usuario" fetch="select">
+            <column name="idusuario" />
+        </many-to-one>
+        <property name="fechaAsignacion" type="date">
+            <column name="fecha_asignacion" length="10" />
+        </property>
+        <property name="tipoMovimiento" type="java.lang.Integer">
+            <column name="tipo_movimiento" />
+        </property>
+    </class>
+</hibernate-mapping>

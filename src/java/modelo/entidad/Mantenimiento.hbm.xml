@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-oct-2018 13:52:50 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.entidad.Mantenimiento" table="mantenimiento" catalog="control_equipos" optimistic-lock="version">
+        <id name="idmantenimiento" type="java.lang.Integer">
+            <column name="idmantenimiento" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="equipo" class="modelo.entidad.Equipo" fetch="select">
+            <column name="idequipo" />
+        </many-to-one>
+        <many-to-one name="usuario" class="modelo.entidad.Usuario" fetch="select">
+            <column name="idusuario" />
+        </many-to-one>
+        <property name="tipo" type="java.lang.Integer">
+            <column name="tipo" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="fecha" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

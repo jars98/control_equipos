@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../plantilla/plantilla.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+
+    <ui:define name="content">
+        <h3>LISTADO DE USUARIOS</h3>
+        <h:form>
+            <p:commandButton value="Agregar Usuario" actionListener="#{usuarioControl.limpiarUsuario()}" oncomplete="PF('dialogoAgregar').show();" update=":formAgregar"/>
+            <p:separator/>
+        </h:form>
+        <h:form id="formListado">
+            <p:dataTable id="tablaUsuarios" paginator="true" paginatorPosition="bottom" rows="10" var="usuario" value="#{usuarioControl.listaUsuarios}" emptyMessage="No existen usuarios">
+                <p:column headerText="CODIGO" style="text-align: center">
+                    <h:outputText value="#{usuario.idusuario}" />
+                </p:column>
+                <p:column headerText="USUARIO">
+                    <h:outputText value="#{usuario.user}"/>
+                </p:column>
+                <!--<p:column headerText="PASSWORD">
+                    <h:outputText value="#{usuario.password}"/>
+                </p:column>-->
+                <p:column headerText="NOMBRE COMPLETO">
+                    <h:outputText value="#{usuario.nombre} #{usuario.apellido}"/>
+                </p:column>
+                <p:column headerText="FECHA CREACION" style="text-align: center">
+                    <h:outputText value="#{usuario.fechaCreacion}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="ES"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="MODIFICAR" style="text-align: center">
+                    <p:commandButton icon="ui-icon-pencil" title="Modificar" oncomplete="PF('dialogoModificar').show();" update=":formModificar">
+                        <f:setPropertyActionListener target="#{usuarioControl.usuario}" value="#{usuario}"/>
+                    </p:commandButton>
+                </p:column>
+                <p:column headerText="ELIMINAR" style="text-align: center">
+                    <p:commandButton icon="ui-icon-trash" title="Eliminar" oncomplete="PF('dialogoEliminar').show();" update=":formEliminar">
+                        <f:setPropertyActionListener target="#{usuarioControl.usuario}" value="#{usuario}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <h:form id="formAgregar">
+            <p:dialog id="dlgAgregar" header="Agregar Usuario" widgetVar="dialogoAgregar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                <p:panelGrid columns="2" style="margin: 0 auto;">
+                    <p:outputLabel value="Usuario:"/>
+                    <p:inputText value="#{usuarioControl.usuario.user}"/>
+
+                    <p:outputLabel value="Password:"/>
+                    <p:password value="#{usuarioControl.usuario.password}"/>
+
+                    <p:outputLabel value="Nombre:"/>
+                    <p:inputText value="#{usuarioControl.usuario.nombre}"/>
+
+                    <p:outputLabel value="Apellido:"/>
+                    <p:inputText value="#{usuarioControl.usuario.apellido}"/>
+
+                    <p:outputLabel value="Fecha Creacion:"/>
+                    <p:calendar value="#{usuarioControl.usuario.fechaCreacion}" pattern="dd/MM/yyyy" locale="es"  disabled="true"/>
+
+                </p:panelGrid>
+                <p:commandButton  value="Guardar" actionListener="#{usuarioControl.agregarUsuario()}" update=":formListado:tablaUsuarios" oncomplete="PF('dialogoAgregar').hide();"/>
+                <p:commandButton  value="Cancelar" onclick="PF('dialogoAgregar').hide();"/>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formModificar">
+            <p:dialog id="dlgModificar" header="Modificar Usuario" widgetVar="dialogoModificar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                <p:panelGrid columns="2" style="margin: 0 auto;">
+                    <p:outputLabel value="Usuario:"/>
+                    <p:inputText value="#{usuarioControl.usuario.user}"/>
+
+                    <p:outputLabel value="Password:"/>
+                    <p:password value="#{usuarioControl.usuario.password}"/>
+
+                    <p:outputLabel value="Nombre:"/>
+                    <p:inputText value="#{usuarioControl.usuario.nombre}"/>
+                    <p:outputLabel value="Apellido:"/>
+                    <p:inputText value="#{usuarioControl.usuario.apellido}"/>
+
+                    <p:outputLabel value="Fecha Creacion"/>
+                    <p:calendar value="#{usuarioControl.usuario.fechaCreacion}" pattern="dd/MM/yyyy" locale="es"  disabled="true"/>
+
+                </p:panelGrid>
+                <p:commandButton  value="Guardar" actionListener="#{usuarioControl.modificarUsuario()}" update=":formListado:tablaUsuarios" oncomplete="PF('dialogoModificar').hide();"/>
+                <p:commandButton  value="Cancelar" onclick="PF('dialogoModificar').hide();"/>
+            </p:dialog>
+        </h:form>
+
+        <h:form id="formEliminar">
+            <p:dialog id="dlgEliminar" header="Eliminar Usuario" widgetVar="dialogoEliminar" resizable="false" showEffect="fade" hideEffect="explode" modal="true">
+                <h:outputText value="Desea eliminar este registro?"/>
+                <p:commandButton  value="Si" actionListener="#{usuarioControl.eliminarUsuario()}" update=":formListado:tablaUsuarios" oncomplete="PF('dialogoEliminar').hide();"/>
+                <p:commandButton  value="No" onclick="PF('dialogoEliminar').hide();"/>
+            </p:dialog>
+        </h:form>
+    </ui:define>
+
+
+</ui:composition>

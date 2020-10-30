@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 06-oct-2018 13:52:50 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.entidad.Equipo" table="equipo" catalog="control_equipos" optimistic-lock="version">
+        <id name="idequipo" type="java.lang.Integer">
+            <column name="idequipo" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="estado" class="modelo.entidad.Estado" fetch="select">
+            <column name="idestado" />
+        </many-to-one>
+        <many-to-one name="marca" class="modelo.entidad.Marca" fetch="select">
+            <column name="idmarca" />
+        </many-to-one>
+        <property name="tipo" type="string">
+            <column name="tipo" length="45" />
+        </property>
+        <property name="modelo" type="string">
+            <column name="modelo" length="45" />
+        </property>
+        <property name="serie" type="string">
+            <column name="serie" length="45" />
+        </property>
+        <property name="fechaIngreso" type="date">
+            <column name="fecha_ingreso" length="10" />
+        </property>
+        <property name="precio" type="java.lang.Double">
+            <column name="precio" precision="6" />
+        </property>
+        <set name="movimientos" table="movimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idequipo" />
+            </key>
+            <one-to-many class="modelo.entidad.Movimiento" />
+        </set>
+        <set name="mantenimientos" table="mantenimiento" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idequipo" />
+            </key>
+            <one-to-many class="modelo.entidad.Mantenimiento" />
+        </set>
+    </class>
+</hibernate-mapping>
